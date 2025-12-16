@@ -58,6 +58,7 @@ const RecipientDetails = () => {
     // Validate Step 1 fields
     if (!selectedBank || !accountNumber.trim() || !accountName.trim()) {
       setErrorMessage("Please fill all required fields to continue.");
+      autoHideMessage();
       return;
     }
     setErrorMessage(""); // Clear error if valid
@@ -79,6 +80,12 @@ const RecipientDetails = () => {
       phone,
       selectedCountry,
     });
+  };
+
+    const autoHideMessage = () => {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 4000);
   };
 
   return (

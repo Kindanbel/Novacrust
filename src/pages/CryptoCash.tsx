@@ -33,7 +33,6 @@ const NGNIcon = () => (
   <img src="/images/nig.svg" alt="nig" className="w-5 h-5" />
 );
 
-
 const CryptoCash: React.FC = () => {
   const [payDropdown, setPayDropdown] = useState<boolean>(false);
   const [receiveDropdown, setReceiveDropdown] = useState<boolean>(false);
@@ -61,15 +60,15 @@ const CryptoCash: React.FC = () => {
     icon: null,
   });
 
+  const [error, setError] = useState<string>(""); // <-- Added for error message
+
   const payOptions: Option[] = [
     { name: "USDT-CLEO", icon: <USDTIcon /> },
     { name: "USDT-TON", icon: <TONIcon /> },
     { name: "USDT-BNB", icon: <BNBcon /> },
   ];
 
-  const receiveOptions: Option[] = [
-    { name: "NGN", icon: <NGNIcon /> },
-  ];
+  const receiveOptions: Option[] = [{ name: "NGN", icon: <NGNIcon /> }];
 
   const payFromOptions: PayFromOption[] = [
     {
@@ -78,27 +77,19 @@ const CryptoCash: React.FC = () => {
     },
     {
       name: "Rainbow",
-      icon: (
-        <img src="/images/rainbow.svg" alt="Wallet 2" className="w-5 h-5" />
-      ),
+      icon: <img src="/images/rainbow.svg" alt="Wallet 2" className="w-5 h-5" />,
     },
     {
       name: "WalletConnect",
-      icon: (
-        <img src="/images/walletcon.svg" alt="Wallet 1" className="w-5 h-5" />
-      ),
+      icon: <img src="/images/walletcon.svg" alt="Wallet 1" className="w-5 h-5" />,
     },
     {
       name: "Other Crypto Wallets (Binance, Conibase, Bybit etc)",
-      icon: (
-        <img src="/images/Wallet.svg" alt="Bank Account" className="w-5 h-5" />
-      ),
+      icon: <img src="/images/Wallet.svg" alt="Bank Account" className="w-5 h-5" />,
     },
   ];
 
-  const payToOptions: Option[] = [
-    { name: "NGN", icon: <NGNIcon /> },
-  ];
+  const payToOptions: Option[] = [{ name: "NGN", icon: <NGNIcon /> }];
 
   const filteredPayOptions = payOptions.filter((option) =>
     option.name.toLowerCase().includes(paySearch.toLowerCase())
@@ -108,8 +99,20 @@ const CryptoCash: React.FC = () => {
     option.name.toLowerCase().includes(receiveSearch.toLowerCase())
   );
 
-  //Naviagte to Recipient Details on Convert
+  // Navigate to Recipient Details on Convert with validation
   const handleConvert = () => {
+    if (payFrom.name === "Select an option") {
+      setError("Please select where you are paying from.");
+      setTimeout(() => setError(""), 3000);
+      return;
+    }
+
+    if (payTo.name === "Select an option") {
+      setError("Please select where you are paying to.");
+      setTimeout(() => setError(""), 3000);
+      return;
+    }
+
     navigate("/recipient-details");
   };
 
@@ -253,7 +256,7 @@ const CryptoCash: React.FC = () => {
                   }}
                 >
                   {option.icon && option.icon}
-                  <span className="text-[13px]" >{option.name}</span>
+                  <span className="text-[13px]">{option.name}</span>
                 </button>
               ))}
             </div>
@@ -293,6 +296,13 @@ const CryptoCash: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Error message */}
+      {error && (
+        <p className="text-red-500 text-sm text-center mb-3">
+          {error}
+        </p>
+      )}
 
       {/* CTA */}
       <Button

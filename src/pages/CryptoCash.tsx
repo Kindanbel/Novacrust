@@ -5,17 +5,17 @@ import Button from "../components/Button";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-// import CLEOLogo from "../../public/images/cleo.svg";
 
 type Option = {
   name: string;
-  icon?: JSX.Element | null;
+  icon?: React.ReactNode | null; 
 };
 
 type PayFromOption = {
   name: string;
-  icon: JSX.Element;
+  icon: React.ReactNode; 
 };
+
 
 const USDTIcon = () => (
   <img src="/images/cleo.svg" alt="Cleo" className="w-5 h-5" />
